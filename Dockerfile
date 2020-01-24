@@ -23,7 +23,8 @@ RUN apk add php7 \
     php7-tokenizer \
     php7-xmlwriter \
     php7-xml \
-    php7-fpm
+    php7-fpm \
+    php7-gd 
 
 RUN wget https://phar.phpunit.de/phpunit.phar && \
     chmod +x phpunit.phar && \
