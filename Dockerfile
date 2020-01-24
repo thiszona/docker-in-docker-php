@@ -6,6 +6,12 @@ LABEL Maintainer="Zona Budi InScaled.com"
 RUN apk add --update --upgrade bash git curl openssl
 
 RUN apk add php7 \
+    php7-zlib \
+    php7-curl \
+    php7-gd \
+    php7-common \
+    php7-fileinfo \
+    php7-bz2 \
     php7-json \
     php7-phar \
     php7-iconv \
@@ -23,11 +29,9 @@ RUN apk add php7 \
     php7-tokenizer \
     php7-xmlwriter \
     php7-xml \
-    php7-fpm \
-    php7-gd 
+    php7-fpm 
 
-RUN wget https://phar.phpunit.de/phpunit.phar && \
-    chmod +x phpunit.phar && \
-    mv phpunit.phar /usr/local/bin/phpunit
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer 
+# Install Composer.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && ln -s $(composer config --global home) /root/composer
+ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
