@@ -1,9 +1,15 @@
- 
 FROM docker:latest
 
 LABEL Maintainer="Zona Budi InScaled.com"
 # Install packages
 RUN apk add --update --upgrade bash git curl openssl
+
+RUN apk add --update --no-cache alpine-sdk bash py-pip autoconf && \
+    git clone https://github.com/edenhill/librdkafka.git /tmp/librdkafka && \
+    cd /tmp/librdkafka/ && \
+    ./configure && \
+    make && \
+    make install
 
 RUN apk add php7 \
     php7-zlib \
@@ -29,8 +35,13 @@ RUN apk add php7 \
     php7-tokenizer \
     php7-xmlwriter \
     php7-xml \
-    php7-fpm 
+    php7-fpm \
+    php7-dev \
+    php7-pear
 
+RUN apk add --update --no-cache pcre-dev && \
+    pecl install rdkafka && \
+    echo "extension=rdkafka.so" > /etc/php7/conf.d/rdkafka.ini
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && ln -s $(composer config --global home) /root/composer
