@@ -37,7 +37,8 @@ RUN apk add php7 \
     php7-xml \
     php7-fpm \
     php7-dev \
-    php7-pear
+    php7-pear \
+    php7-simplexml
 
 RUN apk add --update --no-cache pcre-dev && \
     pecl install rdkafka && \
