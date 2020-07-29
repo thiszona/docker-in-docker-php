@@ -2,7 +2,13 @@ FROM docker:latest
 
 LABEL Maintainer="Zona Budi InScaled.com"
 # Install packages
-RUN apk add --update --upgrade bash git curl openssl
+
+ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+
+RUN apk --update add ca-certificates && \
+    echo "https://dl.bintray.com/php-alpine/v3.11/php-7.4" >> /etc/apk/repositories
+    
+RUN apk add --update bash git curl openssl
 
 RUN apk add --update --no-cache alpine-sdk bash py-pip autoconf && \
     git clone https://github.com/edenhill/librdkafka.git /tmp/librdkafka && \
@@ -11,7 +17,7 @@ RUN apk add --update --no-cache alpine-sdk bash py-pip autoconf && \
     make && \
     make install
 
-RUN apk add php7.4 \
+RUN apk add php7 \
     php7-zlib \
     php7-curl \
     php7-gd \
@@ -40,7 +46,7 @@ RUN apk add php7.4 \
     php7-pear \
     php7-simplexml \
     php7-xmlreader
-
+RUN php -v
 RUN apk add --update --no-cache pcre-dev && \
     pecl install rdkafka && \
     echo "extension=rdkafka.so" > /etc/php7/conf.d/rdkafka.ini
