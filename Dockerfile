@@ -11,7 +11,7 @@ RUN apk add --update --no-cache alpine-sdk bash py-pip autoconf && \
     make && \
     make install
 
-RUN apk add php7 \
+RUN apk add php7.4 \
     php7-zlib \
     php7-curl \
     php7-gd \
