@@ -46,7 +46,6 @@ RUN apk add php7 \
     php7-pear \
     php7-simplexml \
     php7-xmlreader
-RUN php -v
 RUN apk add --update --no-cache pcre-dev && \
     pecl install rdkafka && \
     echo "extension=rdkafka.so" > /etc/php7/conf.d/rdkafka.ini
